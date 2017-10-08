@@ -1,0 +1,49 @@
+<aside class="main-sidebar">
+  <section class="sidebar">
+    <div class="user-panel">
+      <div class="pull-left image">
+        <img src="/AdminLTE/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+      </div>
+      <div class="pull-left info">
+        <p>${project.name}</p>
+        <a href="#"><i class="fa fa-circle text-success"></i> ${(project.modeLabel)}</a>
+      </div>
+    </div>
+    <ul class="sidebar-menu" id="sidebarUL">
+      <li class="header">
+            <div class="pull-right">
+                <a href="javascript:void(0)" title="collapse" onclick="SidebarTree.closeTree();"><span class="fa fa-compress"></span></a> 
+                &nbsp;
+                &nbsp;
+                <a href="javascript:void(0)" title="create new collection" onclick="SidebarTree.addFolder();"><span class="fa fa-folder"></span></a> 
+                &nbsp;
+                <#--
+                <a href="javascript:void(0)" title="create new link" onclick="Link.addFolder();"><span class="fa fa-link"></span></a> 
+                &nbsp;
+                <a href="javascript:void(0)" title="create new link" onclick="Link.addFolder();"><span class="fa fa-edit"></span></a> 
+                &nbsp;
+                <a href="javascript:void(0)" title="create new link" onclick="Link.addFolder();"><span class="fa fa-trash"></span></a> 
+                &nbsp;
+                <a href="javascript:void(0)" title="create new link" onclick="Link.addFolder();"><span class="fa fa-copy"></span></a> 
+                &nbsp;
+                <a href="javascript:void(0)" title="create new link" onclick="Link.addFolder();"><span class="fa fa-arrow-up"></span></a> 
+                &nbsp;
+                <a href="javascript:void(0)" title="create new link" onclick="Link.addFolder();"><span class="fa fa-arrow-down"></span></a> 
+                -->
+                &nbsp;
+                <a href="javascript:void(0)" title="drag and mode nodes" id="dragBtn" onclick="SidebarTree.initDraggable(this);"><span class="fa fa-arrows-alt"></span></a>
+            </div>
+      </li>
+      <li id="dragInfoTip" class="hide">
+        <a href="javascript:void(0)">
+          <strong class="text-yellow"><i class="fa fa-info-circle"></i>  Tree nodes are draggable now</strong>
+        </a>
+      </li>
+      <li id="addFolderBtn" class="hide">
+        <a href="javascript:void(0);" onclick="SidebarTree.addFolder();" class="text-yellow">  <span class="fa fa-plus"></span> New Folder</a>
+      </li>
+    </ul>
+    <ul id="sidebarTreeUL" class="ztree">
+    </ul>
+  </section>
+</aside>

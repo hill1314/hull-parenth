@@ -1,0 +1,89 @@
+[#if (page.totalPage)?? && page.totalPage gte 1]
+<div class="text-right">
+	<ul class="pagination pagination-sm">
+		<li><a href="javascript:_gotoPage(1);" title="首页">首页</a></li>
+		&nbsp;
+		<li><a href="javascript:_gotoPage(${page.prePage});" title="上一页">上一页</a></li>
+			[#if (page.pageNo) lte 4]
+				[#if (page.totalPage) lte 8]
+					[#list 1..page.totalPage as pag]
+					<li [#if pag==page.pageNo] class="active" [/#if]<a href="javascript:_gotoPage(${pag});" title="${pag}"></a></li>
+					[/#list]
+				[/#if]
+				[#if page.totalPage gt 8 ]
+					[#list 1..9 as pag] 
+					<li [#if pag ==page.pageNo ] class="active" [/#if]<a href="javascript:_gotoPage(${pag});" title="${pag}"></a></li>
+					[/#list]
+				[/#if]
+			[/#if]
+			[#if (page.pageNo) gt 4]
+				[#if page.totalPage lte 8]
+					[#list 1..page.totalPage as pag] 
+					<li [#if pag==page.pageNo] class="active" [/#if]<a href="javascript:_gotoPage(${pag});" title="${pag}"></a></li>
+					[/#list]
+				[/#if]
+				[#if (page.totalPage) gt 8]
+					[#assign startIndex = (page.pageNo-4)]
+					[#assign endIndex = (page.pageNo+4)]
+					
+					[#if (page.pageNo+4) gte page.totalPage]
+						[#assign startIndex= (page.totalPage-8)]
+						[#assign endIndex= page.totalPage]
+					[/#if]
+					[#list startIndex..endIndex as pag]
+					<li [#if pag==page.pageNo] class="active" [/#if]<a href="javascript:_gotoPage(${pag});" title="${pag}"></a></li>
+					[/#list]
+				[/#if]
+			[/#if]
+		<li><a href="javascript:_gotoPage(${page.nextPage});" title="下一页">下一页</a></li>
+		<li><a href="javascript:_gotoPage(${page.totalPage});" title="末页">末页</a></li>
+		<li title="跳转到">
+	  		<span style="padding:0;margin:0;height:30px;border-left:none;" >
+	  			<input type="text" name="goNumber" id="goNumber" style="text-align:center;border:none;width:48px;height:28px;line-height:28px;font-size:12px;padding:0;margin:0;"/>
+	  		</span>
+	  	</li>
+	  	<li><a href="javascript:go()">GO</a></li>
+		<li><a href="javascript:void(0);"> 第${page.pageNo}/${page.totalPage}页 | 每页${page.pageSize}条 | 共${page.totalCount}条记录</a></li>
+	</ul>
+</div>
+
+<input type="hidden" id="pageNo" name="pageNo" value="${page.pageNo}" />
+<input type="hidden" id="totalPage" name="totalPage" value="${page.totalPage}" />
+<input type="hidden" id="pageSize" name="pageSize" value="${page.pageSize}" />
+<input type="hidden" id="pageTotalCount" name="pageTotalCount" value="${page.totalCount}" />
+<script type="text/javascript">
+function goPageSearch(){
+	$('#pageNo').val('1');	
+	$('#pageTotalCount').val('');	
+	$('#dataForm').submit();
+}
+function go(){
+	if(!isNaN($("#goNumber").val())){
+		if($("#goNumber").val()>0){
+			_gotoPage($("#goNumber").val());
+		}
+	}
+}
+function _gotoPage(pageNo) {
+	try{
+		var totalPage = $('#totalPage').val();
+		var formPageNo = $("#pageNo");
+		var tableForm = $(formPageNo).closest("form");
+		if(pageNo > totalPage ){
+			ui.msg.warning('请输入正确的页码');
+			$("#pageNo").focus();
+			return;
+		}
+		if(pageNo){
+			$("#pageNo").val(pageNo);
+		}else{
+			$("#pageNo").val(1);
+		}
+		tableForm.onsubmit=null;
+		tableForm.submit();
+	} catch(e) {
+		alert('_gotoPage(pageNo)方法出错');
+	}
+}
+</script>
+[/#if]

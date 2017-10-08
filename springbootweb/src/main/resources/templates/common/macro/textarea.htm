@@ -1,0 +1,33 @@
+[#macro textarea id type="basic"]
+[#if type=="basic"]
+<script type="text/javascript">
+var editor = editorMap.get('${id}');
+if(editor != null ){
+	editor.destroy();
+	editor = null;
+}
+editor = UE.getEditor('${id}', {
+	allowDivTransToP: false,
+    toolbars: [
+        ['source' , '|' ,'undo', 'redo', '|', 'underline', 'bold','pasteplain', '|' , 'simpleupload', 'insertimage']
+    ],minFrameHeight :150
+     ,imageUrl:"/ueditor/upload"             
+     ,imagePath:"/ueditor/file/"                        
+     ,imageFieldName:"upfile"
+     ,sourceEditorFirst:false
+});
+editorMap.set('${id}',editor);
+</script>
+[/#if]
+
+[#if type=="content"]
+<script type="text/javascript">
+UE.getEditor('${id}', {
+   minFrameHeight :150 ,
+   imageUrl:"/ueditor/upload", 
+   imagePath:"/ueditor/file/",	   
+   imageFieldName:"upfile" 
+});
+</script>
+ [/#if]
+[/#macro]

@@ -1,0 +1,103 @@
+<header class="main-header">
+  <!-- Logo -->
+  <a href="/" class="logo">
+    <!-- mini logo for sidebar mini 50x50 pixels -->
+    <span class="logo-mini"><b>CRM-Monitor</b></span>
+    <span class="logo-lg"><b id="rainbowLogo">${_appname}</b><sub style="font-size:8px">&nbsp;${_version!}&nbsp;</sub></span>
+  </a>
+  <!-- Header Navbar: style can be found in header.less -->
+  <nav class="navbar navbar-static-top" role="navigation">
+    <!-- Sidebar toggle button
+    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </a>
+    -->
+    
+    [#--
+    <div class="navbar-custom-menu pull-left">
+      <ul class="nav navbar-nav" id="topbar">
+        <li class="messages-menu text-center active">
+          <a href="/link_viewer" target="_blank"> <i class="fa fa-file-text-o"></i> DOC Viewer</a>
+        </li>
+      </ul>
+    </div>
+    --]
+    
+    
+    <div class="navbar-custom-menu">
+      <ul class="nav navbar-nav">
+        [#--
+      	<li class="messages-menu">
+          <a href="/sign_up">
+          	Sign up
+          </a>
+        </li>
+      	<li class="messages-menu">
+          <a href="/login">
+          	Login
+          </a>
+        </li>
+        --]
+        <li class="dropdown user user-menu">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+             <img src="/AdminLTE/img/user2-160x160.jpg" class="user-image" alt="User Image">
+             <span class="hidden-xs">${(user.realName)!'John Doe'}</span>
+           </a>
+           <ul class="dropdown-menu">
+             <!-- User image -->
+             <li class="user-header">
+               <img src="/AdminLTE/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+               <p>
+                 ${(user.realName)!'John Doe'}
+                 <small>Member since ${((user.created)?string('yyyy-MM-dd'))!}</small>
+               </p>
+             </li>
+             <li class="user-body">
+	              <div class="col-xs-4 text-center">
+	                <a href="#">Followers</a>
+	              </div>
+	              <div class="col-xs-4 text-center">
+	                <a href="#">Sales</a>
+	              </div>
+	              <div class="col-xs-4 text-center">
+	                <a href="#">Friends</a>
+	              </div>
+             </li>
+             <!-- Menu Footer-->
+             <li class="user-footer">
+               [#--
+               <div class="pull-left">
+                 <a href="javascript:void(0)" onclick="User.profile();" class="btn btn-primary btn-flat"><i class="fa fa-user" aria-hidden="true"></i> profile</a>
+                 <a href="javascript:void(0)" onclick="User.changePassword();" class="btn btn-warning btn-flat"><i class="fa fa-lock" aria-hidden="true"></i> password</a>
+               </div>
+               --]
+               <div class="pull-right">
+                 <a href="/logout" class="btn btn-default btn-flat"> <i class="fa fa-power-off" aria-hidden="true"></i> logout</a>
+               </div>
+             </li>
+           </ul>
+         </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<script type="text/javascript">
+/* $('#rainbowLogo').rainbow({ 
+	    colors: [
+	        '#FF0000',
+	        '#f26522',
+	        '#fff200',
+	        '#00a651',
+	        '#28abe2',
+	        '#2e3192',
+	        '#6868ff'
+	    ],
+	    animate: true,
+	    animateInterval: 780,
+	    pad: false,
+	    pauseLength: 100
+	}); */
+</script>

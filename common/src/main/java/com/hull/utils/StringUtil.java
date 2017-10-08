@@ -4,7 +4,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.omg.CORBA.SystemException;
-import org.springframework.web.util.HtmlUtils;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -591,37 +590,6 @@ public final class StringUtil {
         return str.contains(search);
     }
 
-    /**
-     * 转换HTML特殊字符
-     * <p/>
-     * <pre>
-     * 例如:<br/>
-     * 输入：<a href=\"http:\\\\www.baidu.com\">
-     * 输出：&lt;a href=&quot;http:\\www.baidu.com&quot;&gt;
-     * </pre>
-     *
-     * @param inStr 正常字符
-     * @return 转换后的字符
-     */
-    public static String htmlEscape(String inStr) {
-        return HtmlUtils.htmlEscape(inStr);
-    }
-
-    /**
-     * HTML字符反向处理
-     * <p/>
-     * <pre>
-     * 例如:<br/>
-     * 输入：&lt;a href=&quot;http:\\www.baidu.com&quot;&gt;
-     * 输出：<a href="http:\\www.baidu.com">
-     * </pre>
-     *
-     * @param inStr 含HTML的特殊字符的字符串
-     * @return 转换后的字符串
-     */
-    public static String htmlUnescape(String inStr) {
-        return HtmlUtils.htmlUnescape(inStr);
-    }
 
     /**
      * @param conversion 待转化的字符串
@@ -809,32 +777,7 @@ public final class StringUtil {
 	    return out.toString();
 	}
     
-    /**
-	 * XML文件中的合法Unicode字符范围（十六进制）    Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
-	 * any Unicode character, excluding the surrogate blocks, FFFE, and FFFF. 
-	 * 
-	 * 需要过滤的字符的范围为：
-	 *	0x00-0x08
-	 *	0x0b-0x0c
-	 *	0x0e-0x1f
-	 *
-	 * 和(and) &   &amp; 
-	 * 单引号  '    &apos; 
-	 * 双引号  "    &quot;
-	 * 大于号  >    &gt;
-	 * 小于号  <    &lt;
-	 */
-	public static String format(String s) {
-		String reg = "[//x00-//x08//x0b-//x0c//x0e-//x1f]";// 过滤掉非法字符
-		if (s == null)
-			return "";
-		else {
-			s = s.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-					.replaceAll(">", "&gt;").replaceAll("\"", "&quot;")
-					.replaceAll(reg, "");
-			return s;
-		}
-	}
+
 
     /**
      * 过滤路径中的特殊字符，防止xss漏洞攻击

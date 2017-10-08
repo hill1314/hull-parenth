@@ -122,12 +122,10 @@
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
-
-            <!--前端-->
             <dependency>
-                <groupId>org.freemarker</groupId>
-                <artifactId>freemarker</artifactId>
-                <version>${freemarker.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-freemarker</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
 
             <!--数据 连接-->
@@ -223,11 +221,6 @@
                 <groupId>ant</groupId>
                 <artifactId>ant</artifactId>
                 <version>${ant.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.freemarker</groupId>
-                <artifactId>freemarker</artifactId>
-                <version>2.3.23</version>
             </dependency>
 
             <!--http client begin-->

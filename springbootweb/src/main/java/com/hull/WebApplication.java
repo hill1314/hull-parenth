@@ -23,6 +23,6 @@ public class WebApplication {
     }
 
     private static void init() {
-        logger.info("spring-boot-web start ...");
+        logger.info("spring-boot-web started !!!");
     }
 }

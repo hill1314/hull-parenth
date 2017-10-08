@@ -1,0 +1,93 @@
+[#include "/common/taglibs.htm"]
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title>${_appname}</title>
+  	[#include "/common/css_js_base.htm"]
+  	<link rel="stylesheet" href="/plugins/iCheck/square/blue.css">
+  	<script src="/plugins/js.cookie/js.cookie.js?_t=1"></script>
+  </head>
+  
+  <body class="hold-transition register-page" style="background:url('/img/login_bg.jpg'); background-size: 100% 100%;background-size: cover;">
+    <div class="register-box">
+      <div class="register-logo">
+      	<h1 class="text-white" id="rainbowLogo">CAR-Matrix</h1>
+      </div>
+
+      <div class="register-box-body">
+        <p class="login-box-msg">User Login</p>
+        <form action="/login" method="post" id="inputForm" name="inputForm">
+          <div class="form-group has-feedback">
+            <input type="text" name="userName" id="userName" class="form-control" placeholder="Email"/>
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+            <input type="password" name="password" id="password" class="form-control" placeholder="Password"/>
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <button type="button" class="btn bg-olive btn-block btn-flat" id="sbmBtn">Login</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+<script>
+$(function(){
+	$('#sbmBtn').on('click',function(){
+        var userName = $('#userName').val();
+        var password = $('#password').val();
+        if(userName == null || userName == ''){
+        	ui.msg.warning('Plase input the userName');
+            return;
+        }
+        if(password == null || password == ''){
+        	ui.msg.warning('Plase input the password');
+            return;
+        }
+        Net.post({
+            url:'/login',
+            data:{
+                userName:userName,
+                password:password
+            },
+            success:function(resp){
+                switch (resp.status) {
+                   case 0:
+                       ui.msg.success('login success.');
+                       ui.go('/');
+                       break;
+                   case 1:
+                       ui.msg.error(resp.msg);
+                       break;
+                }
+            }
+        });
+    });
+    
+    $(document).keypress(function(e) {  
+           if(e.which == 13) {  
+               $('#sbmBtn').click();
+           }  
+     }); 
+    
+    /* $('#rainbowLogo').rainbow({ 
+	    colors: [
+	        '#FF0000',
+	        '#f26522',
+	        '#fff200',
+	        '#00a651',
+	        '#28abe2',
+	        '#2e3192',
+	        '#6868ff'
+	    ],
+	    animate: true,
+	    animateInterval: 800,
+	    pad: false,
+	    pauseLength: 500
+	}); */
+});
+</script>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="/AdminLTE/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>${(user.userName)!'John Doe'}</p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="active treeview">
+                <a href="#">
+                    <i class="fa fa-file-text-o"></i> <span>订单</span>
+                    <span class="pull-right-container">
+	           <i class="fa fa-angle-left pull-right"></i>
+	           </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li mcode='loan_order_econtract'><a href="#"><i class="fa fa-circle-o"></i> 订单电子合同[直销]</a></li>
+                    <li mcode='sp_loan_order_econtract'><a href="#"><i class="fa fa-circle-o"></i> 订单电子合同[渠道]</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+</aside>
+<script>
+    $(function () {
+        var siebarMcode = '${mcode!""}';
+        if (siebarMcode != '') {
+            $('#sidebar li[mcode!="' + siebarMcode + '"]').removeClass("active");
+            $('li[mcode="' + siebarMcode + '"]').addClass('active').find('a').addClass('text-yellow').parents().addClass("active");
+        }
+    });
+</script>
