@@ -491,12 +491,12 @@ public class HttpClientUtil {
         Map<String, Object> params = new HashMap<>();
 
         //汇总信息
-        String path = "/tmp/salary-commission/";
-        String name = "201709-薪资提成.xlsx";
+//        String path = "/tmp/salary-commission/";
+//        String name = "201709-薪资提成.xlsx";
 
         //明细信息
-//        String path = "/tmp/salary/exportfile/";
-//        String name = "订单提成基础数据20171001081507.xlsx";
+        String path = "/tmp/salary/exportfile/";
+        String name = "订单提成基础数据20170905081407.xlsx";
 //
         // 日志
 //        String path = "/home/mlcar/car-loan-provider/logs/";

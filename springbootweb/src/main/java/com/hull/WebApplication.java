@@ -1,17 +1,21 @@
 package com.hull;
 
+import com.hull.config.MybatisConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * @author leilei.hu
  * @create 2017-09-24 下午5:24
  * @desc
  **/
-
+@Configuration
+@Import({MybatisConfig.class})
 @ComponentScan(basePackages = { "com.hull" })
 @EnableAutoConfiguration
 public class WebApplication {
