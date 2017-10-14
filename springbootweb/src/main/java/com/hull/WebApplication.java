@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import({MybatisConfig.class})
 @ComponentScan(basePackages = { "com.hull" })
+@ServletComponentScan
 @EnableAutoConfiguration
 public class WebApplication {
     static Logger logger = LoggerFactory.getLogger(WebApplication.class);
