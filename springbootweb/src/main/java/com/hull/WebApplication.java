@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import({MybatisConfig.class})
 @ComponentScan(basePackages = { "com.hull" })
-@ServletComponentScan
+@ServletComponentScan  //使 filter 和 listener 生效
 @EnableAutoConfiguration
 public class WebApplication {
     static Logger logger = LoggerFactory.getLogger(WebApplication.class);
