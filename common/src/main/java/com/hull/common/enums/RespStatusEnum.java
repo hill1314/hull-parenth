@@ -1,7 +1,7 @@
 package com.hull.common.enums;
 
 /**
- * TODO 来点注释
+ * 接口调用返回状态
  *
  * @author hull
  * @create 2017-10-27 下午9:14
