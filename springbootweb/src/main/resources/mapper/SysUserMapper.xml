@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hull.mapper.SysUserMapper">
+	<!--查询字段-->
+	<sql id="columns">
+	    a.`user_id`,
+	    a.`user_name`,
+	    a.`real_name`,
+	    a.`password`
+	</sql>
+	
+	<!--查询结果集-->
+	<resultMap id="beanMap" type="com.hull.entity.db.SysUser">
+	    <result property="userId" column="user_id"/>
+	    <result property="userName" column="user_name"/>
+	    <result property="realName" column="real_name"/>
+	    <result property="password" column="password"/>
+	</resultMap>
+	
+	<!--根据主键获取实体-->
+	<select id="get" resultMap="beanMap">
+	  SELECT
+		<include refid="columns"/>
+	  FROM
+		sys_user a
+	  WHERE 
+	     user_id = #{userId}
+	</select>
+
+	<!--根据用户名查询-->
+	<select id="getByUserName" resultMap="beanMap">
+		SELECT
+		<include refid="columns"/>
+		FROM
+		sys_user a
+		WHERE user_name =  #{userName}
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="com.hull.entity.db.SysUser">
+	  INSERT INTO sys_user 
+	    (
+	    `user_id`,
+	    `user_name`,
+	    `real_name`,
+	    `password`		
+	    )
+	   VALUES 
+	   (
+	    #{userId},
+	    #{userName},
+	    #{realName},
+	    #{password}		
+	   )
+	</insert>
+    
+    <!--更新实体信息，null值字段不更新-->
+    <update id="updateIgnoreNull" parameterType="com.hull.entity.db.SysUser">
+        UPDATE sys_user 
+        <set>
+          <if test="userId != null">
+           `user_id` = #{userId},
+      	  </if>
+          <if test="userName != null">
+           `user_name` = #{userName},
+      	  </if>
+          <if test="realName != null">
+           `real_name` = #{realName},
+      	  </if>
+          <if test="password != null">
+           `password` = #{password},
+      	  </if>
+        </set>
+        WHERE   user_id = #{userId}
+    </update>
+    
+    <!--根据主键删除实体-->
+    <delete id="delete">
+      DELETE FROM sys_user WHERE  user_id = #{userId}
+    </delete>
+</mapper>
