@@ -12,6 +12,10 @@ import com.hull.common.web.AccessToken;
 public class WebUtil {
 
     /**
+     * servlet上下文路径（需要在APP启动时候初始化这个值）
+     */
+    public static String APP_ROOT_PATH = "";
+    /**
      * 每个线程拥有自己的token对象
      */
     public static ThreadLocal<AccessToken> accessTokenThreadLocal = new ThreadLocal<>();

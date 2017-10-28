@@ -42,10 +42,10 @@ public class IndexController extends BaseController {
 
     @RequestMapping(value = "/loginView", method = RequestMethod.GET)
     public ModelAndView loginView(){
-        return view("login");
+        return view("login/login");
     }
 
-    @RequestMapping(value = "/doLogin", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ResponseDTO<SysUserDTO> doLogin(HttpServletRequest request, @RequestBody SysUserDTO user){
         //判空
         if (user == null) {
