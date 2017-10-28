@@ -8,10 +8,7 @@ import com.hull.entity.dto.SysUserDTO;
 import com.hull.service.DemoService;
 import com.hull.service.LoginService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
@@ -45,7 +42,15 @@ public class IndexController extends BaseController {
         return view("login/login");
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login")
+    public ResponseDTO<SysUserDTO> doLogin(HttpServletRequest request
+            , @RequestParam String userName, @RequestParam String password){
+        SysUserDTO user = new SysUserDTO();
+        user.setUserName(userName);
+        user.setPassword(password);
+        return doLogin(request,user);
+    }
+    @RequestMapping(value = "/login2")
     public ResponseDTO<SysUserDTO> doLogin(HttpServletRequest request, @RequestBody SysUserDTO user){
         //判空
         if (user == null) {
@@ -59,20 +64,20 @@ public class IndexController extends BaseController {
 
         //验证码
         HttpSession session = request.getSession();
-        String yzm = user.getRandcode();
-        if(StringUtils.isEmpty(yzm)){
-            return ResponseDTO.fail("请输入验证码");
-        }else {
-            String randCode = (String) session.getAttribute("randomCode");
-            if (!yzm.equals(randCode)) {
-                return ResponseDTO.fail("验证码输入有误,请刷新后重新输入!");
-            }
-        }
+//        String yzm = user.getRandcode();
+//        if(StringUtils.isEmpty(yzm)){
+//            return ResponseDTO.fail("请输入验证码");
+//        }else {
+//            String randCode = (String) session.getAttribute("randomCode");
+//            if (!yzm.equals(randCode)) {
+//                return ResponseDTO.fail("验证码输入有误,请刷新后重新输入!");
+//            }
+//        }
 
         //密码验证
         SysUser sysUser = loginService.getSysUserByUserName(user.getUserName());
         if (sysUser == null) {
-            return ResponseDTO.fail("此用户无效");
+            return ResponseDTO.fail("此用户未注册");
         }else{
             if(!StringUtils.equals(sysUser.getPassword(),MD5Util.encrypt(password))){
                 return ResponseDTO.fail("用户名或者密码错误");
@@ -81,8 +86,6 @@ public class IndexController extends BaseController {
             return ResponseDTO.success(user);
         }
     }
-
-
 
 
     @RequestMapping(value = "/time",method = RequestMethod.GET)

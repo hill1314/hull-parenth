@@ -39,6 +39,7 @@
 
 	<logger name="com.hull" level="INFO" />
 	<logger name="org.springframework" level="INFO"/>
+	<logger name="com.hull.mapper" level="DEBUG"/>
 
 	<root level="INFO">
 		<appender-ref ref="console" />
