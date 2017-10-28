@@ -1,7 +1,5 @@
-package com.hull.web.controller;
+package com.hull.common.base;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -10,8 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @create 2017-09-24 下午5:49
  * @desc
  **/
-public class BaseController {
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+public class BaseController extends Base{
 
     public ModelAndView view(String view) {
         ModelAndView mv = new ModelAndView();

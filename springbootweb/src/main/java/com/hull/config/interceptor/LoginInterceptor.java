@@ -2,6 +2,7 @@ package com.hull.config.interceptor;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.hull.common.utils.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
@@ -35,7 +36,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         request.setAttribute("methodCallStartTime", Long.valueOf(startTime));
         String url = "";
         Object params = null;
-        Exception ex = null;
         HashMap logInfoMap = new HashMap();
 
         try {
@@ -43,16 +43,15 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             url = this.getUrl(handlerMethod);
             params = getRequestMethodParams(request, handlerMethod);
             logInfoMap.put("url", url);
-//            logInfoMap.put("uid", WebUtil.getUid());
+            logInfoMap.put("uid", WebUtil.getUid());
             logInfoMap.put("startTime", Long.valueOf(startTime));
             logInfoMap.put("params", params);
-        } catch (Exception var14) {
-            ex = var14;
+        } catch (Exception e) {
             logInfoMap.put("status", 500);
-            logInfoMap.put("msg", var14.getMessage());
+            logInfoMap.put("msg", e.getMessage());
             logger.error("Request preHandle: url = {} --> {}",
                     new Object[]{url, JSON.toJSONString(logInfoMap,
-                            new SerializerFeature[]{SerializerFeature.WriteMapNullValue}), var14});
+                            new SerializerFeature[]{SerializerFeature.WriteMapNullValue}), e});
         } finally {
             logInfoMap.remove("params");
             request.setAttribute("methodCallInfoMap", logInfoMap);
