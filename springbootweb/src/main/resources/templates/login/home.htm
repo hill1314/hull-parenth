@@ -25,7 +25,7 @@
             </el-col>
             <el-col :span="4" class="userinfo">
                 <el-dropdown trigger="hover">
-                    <span class="el-dropdown-link userinfo-inner"><img :src="sysUserAvatar"/>欢迎&nbsp;,&nbsp;{{sysUserName}}</span>
+                    <span class="el-dropdown-link userinfo-inner"><img :src="sysUserAvatar"/>欢迎&nbsp;,&nbsp;{{sysUser.userName}}</span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
