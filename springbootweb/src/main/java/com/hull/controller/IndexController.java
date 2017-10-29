@@ -1,21 +1,16 @@
 package com.hull.controller;
 
 import com.hull.common.base.BaseController;
-import com.hull.common.utils.MD5Util;
 import com.hull.common.web.ResponseDTO;
-import com.hull.entity.db.SysUser;
-import com.hull.entity.dto.SysUserDTO;
 import com.hull.service.DemoService;
-import com.hull.service.LoginService;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,62 +24,19 @@ public class IndexController extends BaseController {
 
     @Resource
     private DemoService demoService;
-    @Resource
-    private LoginService loginService;
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public View index(){
         return new RedirectView("/loginView");
     }
 
-    @RequestMapping(value = "/loginView", method = RequestMethod.GET)
-    public ModelAndView loginView(){
-        return view("login/login");
-    }
-
-    @RequestMapping(value = "/login")
-    public ResponseDTO<SysUserDTO> doLogin(HttpServletRequest request
-            , @RequestParam String userName, @RequestParam String password){
-        SysUserDTO user = new SysUserDTO();
-        user.setUserName(userName);
-        user.setPassword(password);
-        return doLogin(request,user);
-    }
-    @RequestMapping(value = "/login2")
-    public ResponseDTO<SysUserDTO> doLogin(HttpServletRequest request, @RequestBody SysUserDTO user){
-        //判空
-        if (user == null) {
-            return ResponseDTO.fail("用户名和密码不能为空");
-        }
-        String userName = user.getUserName();
-        String password = user.getPassword();
-        if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)) {
-            return ResponseDTO.fail("用户名和密码不能为空");
-        }
-
-        //验证码
-        HttpSession session = request.getSession();
-//        String yzm = user.getRandcode();
-//        if(StringUtils.isEmpty(yzm)){
-//            return ResponseDTO.fail("请输入验证码");
-//        }else {
-//            String randCode = (String) session.getAttribute("randomCode");
-//            if (!yzm.equals(randCode)) {
-//                return ResponseDTO.fail("验证码输入有误,请刷新后重新输入!");
-//            }
-//        }
-
-        //密码验证
-        SysUser sysUser = loginService.getSysUserByUserName(user.getUserName());
-        if (sysUser == null) {
-            return ResponseDTO.fail("此用户未注册");
-        }else{
-            if(!StringUtils.equals(sysUser.getPassword(),MD5Util.encrypt(password))){
-                return ResponseDTO.fail("用户名或者密码错误");
-            }
-            session.setAttribute("user", sysUser);
-            return ResponseDTO.success(user);
-        }
+    /**
+     * 主页
+     * @return
+     */
+    @RequestMapping(value = "/home",method = RequestMethod.GET)
+    public ModelAndView home(){
+        return view("login/home.htm");
     }
 
 
@@ -95,4 +47,30 @@ public class IndexController extends BaseController {
         String time = format.format(now);
         return "当前时间："+time;
     }
+
+    @RequestMapping("/400")
+    public ResponseDTO<String> baddRequest() {
+        return ResponseDTO.badRequest();
+    }
+
+    @RequestMapping("/404")
+    public ResponseDTO<String> pageNotFound() {
+        return ResponseDTO.pageNotFound();
+    }
+
+    @RequestMapping("/403")
+    public ResponseDTO<String> forbidden() {
+        return ResponseDTO.forbidden();
+    }
+
+    @RequestMapping("/405")
+    public ResponseDTO<String> methodNotSupported() {
+        return ResponseDTO.badRequest();
+    }
+
+    @RequestMapping("/500")
+    public ResponseDTO<String> error() {
+        return ResponseDTO.error();
+    }
+
 }

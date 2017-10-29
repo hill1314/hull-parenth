@@ -119,4 +119,41 @@ public class ResponseDTO<T> extends SerializableEntity{
         return responseDTO;
     }
 
+    public static <T> ResponseDTO<T> error(){
+        ResponseDTO<T> responseDTO = new ResponseDTO<>();
+        responseDTO.status = RespStatusEnum.SERVER_ERROR.getStatus();
+        responseDTO.msg = RespStatusEnum.SERVER_ERROR.getMsg();
+        return responseDTO;
+    }
+
+    public static <T> ResponseDTO<T> forbidden() {
+        ResponseDTO<T> resp = new ResponseDTO<T>();
+        resp.status = RespStatusEnum.FORBIDDEN.getStatus();
+        resp.msg = RespStatusEnum.FORBIDDEN.getMsg();
+        return resp;
+
+    }
+
+    public static <T> ResponseDTO<T> badRequest() {
+        return badRequest(RespStatusEnum.BAD_REQUEST.getMsg(), null);
+    }
+
+    public static <T> ResponseDTO<T> badRequest(String msg) {
+        return badRequest(msg, null);
+    }
+
+    public static <T> ResponseDTO<T> badRequest(String msg, T data) {
+        ResponseDTO<T> resp = new ResponseDTO<T>();
+        resp.data = data;
+        resp.status = RespStatusEnum.BAD_REQUEST.getStatus();
+        resp.msg = msg;
+        return resp;
+    }
+
+    public static <T> ResponseDTO<T> pageNotFound() {
+        ResponseDTO<T> resp = new ResponseDTO();
+        resp.status = RespStatusEnum.PAGE_NOT_FOUND.getStatus();
+        resp.msg = RespStatusEnum.PAGE_NOT_FOUND.getMsg();
+        return resp;
+    }
 }

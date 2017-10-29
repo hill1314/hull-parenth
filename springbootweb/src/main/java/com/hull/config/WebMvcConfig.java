@@ -40,7 +40,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns(LOGIN_EXCLUED_LOCATIONS);
+//        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns(LOGIN_EXCLUED_LOCATIONS);
         super.addInterceptors(registry);
     }
 }

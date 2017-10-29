@@ -56,7 +56,8 @@ $(function(){
                 switch (resp.status) {
                    case 0:
                        ui.msg.success('login success.');
-                       ui.go('/');
+//                       sessionStorage.setItem('user', JSON.stringify(data));
+                       ui.go('/home');
                        break;
                    case 1:
                        ui.msg.error(resp.msg);
