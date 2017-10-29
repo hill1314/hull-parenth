@@ -1,2 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    　　<title>首页</title>
+    　　<!-- 引入样式 -->
+    <link href="/element-ui/lib/theme-default/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body style="overflow: hidden;">
+<div id="home">
+    <el-row class="container">
+        <el-col :span="24" class="header" style="background-color: #191970">
+            <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
+                计费服务系统
+            </el-col>
+            <el-col :span="15">
+                <div style="position: relative;width: 100%;">
+                    <marquee
+                            style="width:100% ;position: absolute;z-index: 100;color:red;font-weight:900;"
+                            behavior="scroll" direction="left" scrollamount="2">美利车金融计费服务系统正式试运行，感谢所有合作伙伴的鼎力支持！！！
+                    </marquee>
+                </div>
+            </el-col>
+            <el-col :span="4" class="userinfo">
+                <el-dropdown trigger="hover">
+                    <span class="el-dropdown-link userinfo-inner"><img :src="sysUserAvatar"/>欢迎&nbsp;,&nbsp;{{sysUserName}}</span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </el-col>
+        </el-col>
+        <el-col :span="24" class="main">
+            <!--导航菜单-->
+            <el-menu class="el-menu-vertical" @open="handleOpen" @close="handleClose"
+                     @select="handleSelect"
+                     unique-opened v-show="!collapsed">
+                <template v-for="(item,index) in menuList" v-if="!item.hidden">
+                    <el-submenu :index="index+''" v-if="!item.leaf">
+                        <template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
+                        <el-menu-item v-for="child in item.children" :index="child.path"
+                                      @click="goto(child.path)" v-if="!child.hidden">{{child.name}}
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"
+                                  style="background-color:#ADD8E6"><i
+                            :class="item.iconCls"></i>{{item.children[0].name}}
+                    </el-menu-item>
+                </template>
+            </el-menu>
+            <section class="content-container" style="padding: 0;overflow: hidden">
+                <el-col :span="24" class="content-wrapper" v-loading="frameLoading">
+                    <iframe id="show-iframe" frameborder=0 name="showHere" scrolling="yes"
+                            :src="frameSrc" @load="frameLoaded"></iframe>
+                </el-col>
+            </section>
+        </el-col>
+    </el-row>
+</div>
+</body>
 
-home pages!
+<!-- 先引入 Vue -->
+<script src="/js/vue.min.js"></script>
+<!-- 引入组件库 -->
+<script src="/element-ui/lib/index.js"></script>
+<script src="/js/axios.min.js"></script>
+<script>
+    var parent = new Vue({
+        el: '#home',
+        data: {
+            collapsed: false,
+            sysUserName: '',
+            sysUserAvatar: '/img/user.png',
+            frameSrc: '/home',
+            form: {
+                name: '',
+                region: '',
+                date1: '',
+                date2: '',
+                delivery: false,
+                type: [],
+                resource: '',
+                desc: ''
+
+            },
+            menuList: [],
+            frameLoading:false
+        },
+        methods: {
+            initData: function () {
+                axios.post('/menu/list', {}).then(function (response) {
+                    if (response.data.status === 0) {
+                        console.log(response.data.data);
+                        parent.menuList = response.data.data;
+                        var user = sessionStorage.getItem('user');
+                        if (user) {
+                            user = JSON.parse(user);
+                            parent.sysUserName = user.userName || '';
+                        }
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            onSubmit: function () {
+                console.log('submit!');
+            },
+            handleOpen() {
+                console.log('handleopen');
+            },
+            handleClose() {
+                //console.log('handleclose');
+            },
+            handleSelect: function (a, b) {
+            },
+            goto: function (path) {
+                this.frameLoading=true;
+                this.frameSrc = path;
+            },
+            //退出登录
+            logout: function () {
+                var _this = this;
+                this.$confirm('确认退出吗?', '提示', {}).then(() => {
+                    axios.post(`/logout`).then(function (response) {
+                    sessionStorage.removeItem('user');
+                    location.href = '/';
+                });
+            }).catch(() => {
+                });
+            },
+            //折叠导航栏
+            collapse: function () {
+                this.collapsed = !this.collapsed;
+            },
+            showMenu(i, status) {
+                this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none';
+            },
+            handleResize: function () {
+                const frame = document.getElementById('show-iframe');
+                const deviceWidth = document.documentElement.clientWidth;
+                const deviceHeight = document.documentElement.clientHeight;
+                frame.style.width = (deviceWidth - 200) + 'px';
+                frame.style.height = (deviceHeight - 45) + 'px';
+            },
+            frameLoaded: function () {
+                this.frameLoading=false;
+            }
+        },
+        mounted() {
+            this.initData();
+            this.handleResize();
+            window.addEventListener('resize', this.handleResize);
+        }
+    });
+</script>
+</html>

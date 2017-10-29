@@ -4,9 +4,11 @@ import com.hull.common.base.BaseController;
 import com.hull.common.utils.BeanCopyUtil;
 import com.hull.common.utils.MD5Util;
 import com.hull.common.web.ResponseDTO;
+import com.hull.entity.db.SysMenu;
 import com.hull.entity.db.SysUser;
 import com.hull.entity.dto.SysUserDTO;
 import com.hull.service.LoginService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * 登录相关
@@ -83,4 +86,27 @@ public class LoginController extends BaseController{
             return ResponseDTO.success(userDto);
         }
     }
+
+    @RequestMapping("/logout")
+    public ResponseDTO<Void> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        return ResponseDTO.success();
+    }
+
+    @RequestMapping("/menu/list")
+    public ResponseDTO<List<SysMenu>> listMenu(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        SysUser syUser = (SysUser) session.getAttribute("user");
+        Integer userId = syUser.getUserId();
+        List<Integer> roleIds = loginService.queryRoleIdsByUserId(userId);
+        ResponseDTO responseDTO = ResponseDTO.fail();
+        List<SysMenu> menuDtos = loginService.listMenu(roleIds);
+        if (!CollectionUtils.isEmpty(menuDtos)) {
+            responseDTO = ResponseDTO.success();
+            responseDTO.setData(menuDtos);
+        }
+        return responseDTO;
+    }
+
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hull.mapper.SysUserRoleMapper">
+	<!--查询字段-->
+	<sql id="columns">
+	    a.`user_id`,
+	    a.`role_id`
+	</sql>
+	
+	<!--查询结果集-->
+	<resultMap id="beanMap" type="com.hull.entity.db.SysUserRole">
+	    <result property="userId" column="user_id"/>
+	    <result property="roleId" column="role_id"/>
+	</resultMap>
+	
+	<!--根据主键获取实体-->
+	<select id="get" resultMap="beanMap">
+	  SELECT
+		<include refid="columns"/>
+	  FROM
+		sys_user_role a
+	  WHERE 
+	     user_id = #{userId} AND role_id = #{roleId}
+	</select>
+
+	<!--查询用户的角色-->
+	<select id="queryRoleIdsByUserId" resultType="java.lang.Integer">
+		SELECT role_id FROM sys_user_role a
+		where user_id = #{userId}
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="com.hull.entity.db.SysUserRole">
+	  INSERT INTO sys_user_role 
+	    (
+	    `user_id`,
+	    `role_id`		
+	    )
+	   VALUES 
+	   (
+	    #{userId},
+	    #{roleId}		
+	   )
+	</insert>
+    
+    <!--更新实体信息-->
+    <update id="update" parameterType="com.hull.entity.db.SysUserRole">
+      UPDATE 
+      	sys_user_role 
+      SET 
+        `user_id` = #{userId},
+        `role_id` = #{roleId}      
+      WHERE  user_id = #{userId} AND role_id = #{roleId}
+    </update>
+    
+    <!--更新实体信息，null值字段不更新-->
+    <update id="updateIgnoreNull" parameterType="com.hull.entity.db.SysUserRole">
+        UPDATE sys_user_role 
+        <set>
+          <if test="userId != null">
+           `user_id` = #{userId},
+      	  </if>
+          <if test="roleId != null">
+           `role_id` = #{roleId},
+      	  </if>
+        </set>
+        WHERE   user_id = #{userId} AND role_id = #{roleId}
+    </update>
+    
+    <!--根据主键删除实体-->
+    <delete id="delete">
+      DELETE FROM sys_user_role WHERE  user_id = #{userId} AND role_id = #{roleId}
+    </delete>
+</mapper>

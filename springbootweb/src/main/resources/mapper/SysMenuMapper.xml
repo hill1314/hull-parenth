@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hull.mapper.SysMenuMapper">
+	<!--查询字段-->
+	<sql id="columns">
+	    a.`MENU_ID`,
+	    a.`MENU_TITLE`,
+	    a.`MENU_INDEX`
+	</sql>
+	
+	<!--查询结果集-->
+	<resultMap id="beanMap" type="com.hull.entity.db.SysMenu">
+	    <result property="menuId" column="MENU_ID"/>
+	    <result property="menuTitle" column="MENU_TITLE"/>
+	    <result property="menuIndex" column="MENU_INDEX"/>
+	</resultMap>
+	
+	<!--根据主键获取实体-->
+	<select id="get" resultMap="beanMap">
+	  SELECT
+		<include refid="columns"/>
+	  FROM
+		sys_menu a
+	  WHERE 
+	     MENU_ID = #{menuId}
+	</select>
+
+	<!--查询 角色对应的菜单权限-->
+	<select id="getMenuByRoleId" resultMap="beanMap">
+		SELECT DISTINCT
+		<include refid="columns"/>
+		sys_menu m,sys_user_menu r
+		where m.menu_id = r.menu_id
+		and r.role_id in
+		<foreach collection="list" item="item" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<!-- 新增记录 -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="com.hull.entity.db.SysMenu">
+	  INSERT INTO sys_menu 
+	    (
+	    `MENU_ID`,
+	    `MENU_TITLE`,
+	    `MENU_INDEX`		
+	    )
+	   VALUES 
+	   (
+	    #{menuId},
+	    #{menuTitle},
+	    #{menuIndex}		
+	   )
+	</insert>
+    
+    <!--更新实体信息，null值字段不更新-->
+    <update id="updateIgnoreNull" parameterType="com.hull.entity.db.SysMenu">
+        UPDATE sys_menu 
+        <set>
+          <if test="menuId != null">
+           `MENU_ID` = #{menuId},
+      	  </if>
+          <if test="menuTitle != null">
+           `MENU_TITLE` = #{menuTitle},
+      	  </if>
+          <if test="menuIndex != null">
+           `MENU_INDEX` = #{menuIndex},
+      	  </if>
+        </set>
+        WHERE   MENU_ID = #{menuId}
+    </update>
+    
+    <!--根据主键删除实体-->
+    <delete id="delete">
+      DELETE FROM sys_menu WHERE  MENU_ID = #{menuId}
+    </delete>
+</mapper>
