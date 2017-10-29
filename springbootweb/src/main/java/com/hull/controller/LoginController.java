@@ -1,6 +1,7 @@
 package com.hull.controller;
 
 import com.hull.common.base.BaseController;
+import com.hull.common.utils.BeanCopyUtil;
 import com.hull.common.utils.MD5Util;
 import com.hull.common.web.ResponseDTO;
 import com.hull.entity.db.SysUser;
@@ -32,6 +33,11 @@ public class LoginController extends BaseController{
         return view("login/login");
     }
 
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public ModelAndView home(){
+        return view("login/home");
+    }
+
     @RequestMapping(value = "/login")
     public ResponseDTO<SysUserDTO> doLogin(HttpServletRequest request
             , @RequestParam String userName, @RequestParam String password){
@@ -41,13 +47,13 @@ public class LoginController extends BaseController{
         return doLogin(request,user);
     }
     @RequestMapping(value = "/login2")
-    public ResponseDTO<SysUserDTO> doLogin(HttpServletRequest request, @RequestBody SysUserDTO user){
+    public ResponseDTO<SysUserDTO> doLogin(HttpServletRequest request, @RequestBody SysUserDTO userDto){
         //判空
-        if (user == null) {
+        if (userDto == null) {
             return ResponseDTO.fail("用户名和密码不能为空");
         }
-        String userName = user.getUserName();
-        String password = user.getPassword();
+        String userName = userDto.getUserName();
+        String password = userDto.getPassword();
         if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)) {
             return ResponseDTO.fail("用户名和密码不能为空");
         }
@@ -65,15 +71,16 @@ public class LoginController extends BaseController{
 //        }
 
         //密码验证
-        SysUser sysUser = loginService.getSysUserByUserName(user.getUserName());
+        SysUser sysUser = loginService.getSysUserByUserName(userDto.getUserName());
         if (sysUser == null) {
             return ResponseDTO.fail("此用户未注册");
         }else{
             if(!StringUtils.equals(sysUser.getPassword(), MD5Util.encrypt(password))){
                 return ResponseDTO.fail("用户名或者密码错误");
             }
-            session.setAttribute("user", sysUser);
-            return ResponseDTO.success(user);
+            BeanCopyUtil.copy(sysUser,userDto);
+            session.setAttribute("user", userDto);
+            return ResponseDTO.success(userDto);
         }
     }
 }

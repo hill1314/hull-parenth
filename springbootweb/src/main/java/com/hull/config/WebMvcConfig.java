@@ -16,6 +16,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
+    private static final String[] RESOURCE_LOCATIONS =
+            {"classpath:/resources/", "classpath:/static/"};
     private static final String[] LOGIN_EXCLUED_LOCATIONS = {
             "classpath:/static/",
             "/",
@@ -24,6 +26,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
             "/sign_up",
             "/tool/*",
             "/register",
+            "/home",
             "/login",
             "/logout",
             "/alive",
@@ -34,13 +37,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        //将所有/static/** 访问都映射到classpath:/static/ 目录下
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        if (!registry.hasMappingForPattern("/**")) {
+            registry.addResourceHandler("/**").addResourceLocations(RESOURCE_LOCATIONS);
+        }
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns(LOGIN_EXCLUED_LOCATIONS);
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns(LOGIN_EXCLUED_LOCATIONS);
         super.addInterceptors(registry);
     }
 }

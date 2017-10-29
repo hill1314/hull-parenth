@@ -6,7 +6,6 @@ import com.hull.service.DemoService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -29,16 +28,6 @@ public class IndexController extends BaseController {
     public View index(){
         return new RedirectView("/loginView");
     }
-
-    /**
-     * 主页
-     * @return
-     */
-    @RequestMapping(value = "/home",method = RequestMethod.GET)
-    public ModelAndView home(){
-        return view("login/home.htm");
-    }
-
 
     @RequestMapping(value = "/time",method = RequestMethod.GET)
     public String getTime(){

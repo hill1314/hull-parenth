@@ -55,23 +55,21 @@ $(function(){
             success:function(resp){
                 switch (resp.status) {
                    case 0:
-                       ui.msg.success('login success.');
-//                       sessionStorage.setItem('user', JSON.stringify(data));
-                       ui.go('/home');
-                       break;
+                       ui.msg.success(resp.msg);
+                       sessionStorage.setItem('user', JSON.stringify(resp.data));
+                       location.href = '/home';
                    case 1:
                        ui.msg.error(resp.msg);
-                       break;
                 }
             }
         });
     });
-    
-    $(document).keypress(function(e) {  
-           if(e.which == 13) {  
+
+    $(document).keypress(function(e) {
+           if(e.which == 13) {
                $('#sbmBtn').click();
-           }  
-     }); 
+           }
+     });
 
 });
 </script>
