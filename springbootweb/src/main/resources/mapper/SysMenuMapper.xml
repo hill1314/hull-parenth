@@ -29,8 +29,8 @@
 	<select id="getMenuByRoleId" resultMap="beanMap">
 		SELECT DISTINCT
 		<include refid="columns"/>
-		sys_menu m,sys_user_menu r
-		where m.menu_id = r.menu_id
+		FROM sys_menu a,sys_role_menu r
+		where a.menu_id = r.menu_id
 		and r.role_id in
 		<foreach collection="list" item="item" separator="," open="(" close=")">
 			#{item}

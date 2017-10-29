@@ -97,7 +97,7 @@ public class LoginController extends BaseController{
     @RequestMapping("/menu/list")
     public ResponseDTO<List<SysMenu>> listMenu(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        SysUser syUser = (SysUser) session.getAttribute("user");
+        SysUserDTO syUser = (SysUserDTO) session.getAttribute("user");
         Integer userId = syUser.getUserId();
         List<Integer> roleIds = loginService.queryRoleIdsByUserId(userId);
         ResponseDTO responseDTO = ResponseDTO.fail();
