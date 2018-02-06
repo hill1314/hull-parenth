@@ -4,6 +4,8 @@ import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
 import org.apache.storm.StormSubmitter;
 import org.apache.storm.topology.TopologyBuilder;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * TODO 来点注释
@@ -15,6 +17,9 @@ import org.apache.storm.topology.TopologyBuilder;
 public class ExclamationTopology {
 
     public static void main(String[] args) throws Exception {
+
+        ApplicationContext springContext = new ClassPathXmlApplicationContext("spring-demo.xml");
+        SpringBeanUtil.setContext(springContext);
 
         TopologyBuilder builder = new TopologyBuilder();
         builder.setSpout("spout", new TestWordSpout(), 1);

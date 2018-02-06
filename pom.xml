@@ -61,7 +61,7 @@
                 <version>${spring-framework.version}</version>
                 <exclusions>
                     <exclusion>
-                        <groupId>commons-logging</groupId>
+                        <groupId>commons-lxogging</groupId>
                         <artifactId>commons-logging</artifactId>
                     </exclusion>
                 </exclusions>
