@@ -1,7 +1,5 @@
 package com.hull.test.forkjoin;
 
-import org.junit.jupiter.api.Test;
-
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.stream.LongStream;
