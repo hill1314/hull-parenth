@@ -18,6 +18,8 @@ import java.util.Scanner;
  * java读取大文件 的相关方法
  * 源于阿里一道笔试题 ：读取一个大的log文件，找出里面的关键字的个数 ，需要考虑不能发生 OOM ，并尽可能有好的效率
  *
+ * 关于IO 文件copy 的分析，还可以参考： https://blog.csdn.net/chy555chy/article/details/52847508
+ *
  * @author
  * @create 2018-10-20 上午11:58
  **/
@@ -126,6 +128,7 @@ public class BigFileAnalysisUtil {
         do{
             //因为要考虑换行，而 直接取的 endPosition 很可能在一行的中间，那么需要基于这个数字再向后读取一个buffer，
             // 直到找到一个换行符，然后把这个位置当做此次切割的子文件的结束位
+            //此处的一段逻辑只为 找到一个合适的 endPosition
             if(startPosition + limitSize <= fileSize){
                 int read = inputChannel.read(byteBuffer, endPosition);// 读取数据
                 readW:
@@ -148,9 +151,11 @@ public class BigFileAnalysisUtil {
             }
 
             fileIdx++;
+            //开始写
             System.out.println("fileIdx="+fileIdx+",startPosition="+startPosition+",endPosition="+endPosition);
             FileOutputStream fos = new FileOutputStream(filePath + fileIdx +".txt");
             FileChannel outputChannel = fos.getChannel();
+            //这里应的是 NIO 的零拷贝
             inputChannel.transferTo(startPosition, endPosition - startPosition, outputChannel);//通道传输文件数据
             outputChannel.close();
             fos.close();
