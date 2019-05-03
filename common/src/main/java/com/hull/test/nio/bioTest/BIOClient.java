@@ -1,4 +1,4 @@
-package com.hull.test.nio;
+package com.hull.test.nio.bioTest;
 
 import java.io.IOException;
 import java.io.OutputStream;
