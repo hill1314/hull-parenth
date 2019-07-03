@@ -27,8 +27,8 @@ import java.time.format.DateTimeFormatter;
 
 public class JDK8_4_DateTimeApiTest {
     public static void main(String[] args) {
-//        testLocalDateTime();
-        testZonedDateTime();
+        testLocalDateTime();
+//        testZonedDateTime();
     }
 
     /**
@@ -57,7 +57,11 @@ public class JDK8_4_DateTimeApiTest {
         LocalDateTime currentTime = LocalDateTime.now();
         System.out.println("当前时间: " + currentTime);
 
+        LocalDate dateNow = LocalDate.now();
+        System.out.println("dateNow: " + dateNow);
+
         LocalDate date1 = currentTime.toLocalDate();
+        System.out.println("yyyyMM:"+date1.format(DateTimeFormatter.ofPattern("yyyyMM")));
         System.out.println("date1: " + date1);
 
         LocalTime time1 = currentTime.toLocalTime();
