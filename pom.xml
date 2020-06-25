@@ -16,7 +16,7 @@
     </modules>
 
     <properties>
-        <spring-framework.version>4.3.3.RELEASE</spring-framework.version>
+        <spring-framework.version>5.2.7.RELEASE</spring-framework.version>
         <spring-boot.version>1.5.7.RELEASE</spring-boot.version>
         <freemarker.version>2.3.25-incubating</freemarker.version>
         <spring-data-redis.version>1.7.5.RELEASE</spring-data-redis.version>
