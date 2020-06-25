@@ -1,4 +1,4 @@
-package com.hull.test;
+package com.hull.test.juc;
 
 import java.util.concurrent.*;
 
